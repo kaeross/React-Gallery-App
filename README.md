@@ -40,6 +40,9 @@ And that's it.
 * **Kate Ross** - *Initial work* - [Kaeross](https://github.com/kaeross)
 
 
+## React Instructions
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
