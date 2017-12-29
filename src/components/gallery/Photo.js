@@ -2,7 +2,7 @@ import React from 'react';
 
 const FlickrImages = props => {
     return (
-        <li>
+        <li key={id}>
             <img src="https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg" alt="" />
         </li>
     )
