@@ -10,6 +10,7 @@ import axios from 'axios';
 import Results from './components/Results';
 import Search from './components/Search';
 import Nav from './components/Nav';
+import apiKey from './config.js';
 
 class App extends Component {
 
@@ -20,16 +21,23 @@ class App extends Component {
     };
   }
   
-  componentDidMount() {
-    axios.get('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC')
+  componentDidMount(searchTerm) {
+    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchTerm}&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
-          gifs: response.data.data
+          photos: response.photos.photo
         });
       })
       .catch(error => {
         console.log('Error fetching and parsing data', error);
       });
+  }
+
+  getPhotoUrls() {
+    var farmId = this.state.photos.map(photo => {
+      
+    })
+    return `https://farm${farmId}.staticflickr.com/${serverId}/${id}_${secret}.jpg`
   }
 
   render() {
