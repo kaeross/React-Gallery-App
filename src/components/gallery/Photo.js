@@ -1,12 +1,16 @@
 import React from 'react';
 
-const FlickrImages = props => {
-    var photos = props.photos
-    return (
-        <li key={id}>
-            <img src={} alt="" />
+const Photo = props => {
+    props.photos.map(photo => 
+        <li key={photo.id}>
+            <img src={photo.url} alt="" />
         </li>
-    )
+    )  
 }
 
-export default FlickrImages;
+Photo.propTypes = {
+    id: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired
+};
+
+export default Photo;
