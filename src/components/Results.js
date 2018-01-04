@@ -1,27 +1,35 @@
 import React from 'react';
-import {
-    Route
-} from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 //result components
 import NotFound from './gallery/NotFound';
 import Photo from './gallery/Photo';
 
-const Results = ({match}) => {
-    {/* Get props.results */}
-    let searchQuery = match.params.query;
-    return (
-        <div class="photo-container">
-            <h2>Results</h2>{/* Show if results array > 0 */}
-            <ul>
-                {/* If results found */}
-                <Route exact path="/" render={(props) => {}} component={Photo} />
-                {/* If no results found */}
-                <Route component={NotFound} />
-            </ul>
-        </div>
-    )
+const Results = props => {
+    if (props.photos.length > 0) {
+        return (
+            <div className="photo-container">
+                <h2>Results</h2>
+                <ul>
+                    <Photo photos={props.photos} /> 
+                </ul>
+            </div>
+        )
+    } else {
+        return (
+            <div className="photo-container">
+                <ul>
+                    <NotFound />
+                </ul>
+            </div>
+        )
+    }
+    
 }
 
+Results.propTypes = {
+   photos: PropTypes.array.isRequired 
+};
 
 export default Results;
