@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 
 const Search = props => {
+    
     return (
         <form className="search-form" onSubmit={props.searchSubmitHandler}>
             <input 

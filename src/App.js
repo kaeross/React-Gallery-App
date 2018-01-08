@@ -2,7 +2,6 @@ import React, {
     Component
 } from 'react';
 import {
-    BrowserRouter,
     Route
 } from 'react-router-dom';
 import axios from 'axios';
@@ -18,16 +17,15 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            defaultSearchTerm: 'dog',
+            defaultSearchTerm: 'sunset',
+            perPage: 12,
             photos: [],
             searchVal: ''
         };
     }
 
-    getPhotos = () => {}
-
-    componentDidMount = () =>  {
-        axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&per_page=24&tags=${this.state.defaultSearchTerm}&format=json&nojsoncallback=1`)
+    getPhotos = searchTerm => {
+        axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&per_page=${this.state.perPage}&tags=${searchTerm}&format=json&nojsoncallback=1`)
             .then(response => {
                 var photoData = response.data.photos.photo;
                 this.setState({
@@ -49,10 +47,8 @@ class App extends Component {
             });
     }
 
-    getPhotoUrls() {
-        this.state.photoData.map(photo => {
-            return `https://farm${photo.farmId}.staticflickr.com/${photo.serverId}/${photo.id}_${photo.secret}.jpg`
-        });
+    componentDidMount = () =>  {
+        this.getPhotos(this.state.defaultSearchTerm)
     }
 
     handleSearchInput= e =>
@@ -60,33 +56,23 @@ class App extends Component {
 
     searchSubmitHandler = e => {
         e.preventDefault();
-        axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.state.searchVal}&format=json&nojsoncallback=1`)
-            .then(response => {
-                var data = response.photos;
-                this.setState({
-                    photos: data
-                });
-            })
-            .catch(error => {
-                console.log('Error fetching and parsing data', error);
-            });
+        this.getPhotos(this.state.searchVal);
+        this.props.history.push(this.state.searchVal);
         this.setState({ searchVal: '' });
     }
 
     render() {
-        return ( 
-            <BrowserRouter>
-                <div className="App">
-                    <div className="container">
-                        <Search 
-                        searchSubmitHandler={this.searchSubmitHandler}
-                        handleSearchInput={this.handleSearchInput}
-                        pendingSearch={this.state.searchVal} />
-                        <Nav />
-                        <Results photos={this.state.photos} />
-                    </div> 
+        return (
+            <div className="App">
+                <div className="container">
+                    <Search 
+                    searchSubmitHandler={this.searchSubmitHandler}
+                    handleSearchInput={this.handleSearchInput}
+                    pendingSearch={this.state.searchVal} />
+                    <Nav />
+                    <Route path={'/:query'} render={ ({match}) => <Results query={match.params.query} getPhotos={this.getPhotos} photos={this.state.photos} />} />
                 </div> 
-            </BrowserRouter>
+            </div>
         );
     }
 }

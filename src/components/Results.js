@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import NotFound from './gallery/NotFound';
 import Photo from './gallery/Photo';
 
-const Results = props => {
+const Results = (props) => {
+    //get Photos from url query
+    props.getPhotos(props.query)
+
     if (props.photos.length > 0) {
         return (
             <div className="photo-container">
