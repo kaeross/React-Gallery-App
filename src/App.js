@@ -17,8 +17,8 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            defaultSearchTerm: 'sunset',
-            perPage: 12,
+            defaultSearchTerm: 'My favourite things',
+            perPage: 16,
             photos: [],
             searchVal: ''
         };
@@ -56,7 +56,6 @@ class App extends Component {
 
     searchSubmitHandler = e => {
         e.preventDefault();
-        this.getPhotos(this.state.searchVal);
         this.props.history.push(this.state.searchVal);
         this.setState({ searchVal: '' });
     }
@@ -70,6 +69,7 @@ class App extends Component {
                     handleSearchInput={this.handleSearchInput}
                     pendingSearch={this.state.searchVal} />
                     <Nav />
+                    <Route exact path={'/'} render={ ({match}) => <Results query={this.state.defaultSearchTerm} getPhotos={this.getPhotos} photos={this.state.photos} />} />
                     <Route path={'/:query'} render={ ({match}) => <Results query={match.params.query} getPhotos={this.getPhotos} photos={this.state.photos} />} />
                 </div> 
             </div>

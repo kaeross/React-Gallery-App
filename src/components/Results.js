@@ -13,7 +13,7 @@ const Results = (props) => {
     if (props.photos.length > 0) {
         return (
             <div className="photo-container">
-                <h2>Results</h2>
+                <h2>{props.query}</h2>
                 <ul>
                     <Photo photos={props.photos} /> 
                 </ul>
